@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -58,6 +57,11 @@ const YouTubeDownloader: React.FC = () => {
   const wsRef = useRef<WebSocket | null>(null);
   const clientId = useRef(Math.random().toString(36).substr(2, 9));
 
+  // --- START OF ADDED/MODIFIED LINES ---
+  const API_BASE_URL = import.meta.env.VITE_APP_API_URL || 'http://localhost:8000'; // Fallback for local dev
+  const WS_BASE_URL = API_BASE_URL.replace('http', 'ws').replace('https', 'wss');
+  // --- END OF ADDED/MODIFIED LINES ---
+
   // Validate YouTube URL
   const isValidYouTubeUrl = (url: string) => {
     const regex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|embed\/|v\/)|youtu\.be\/)[\w-]+(&\S*)?$/;
@@ -67,7 +71,9 @@ const YouTubeDownloader: React.FC = () => {
   // WebSocket connection
   useEffect(() => {
     const connectWebSocket = () => {
-      const ws = new WebSocket(`ws://localhost:8000/ws/${clientId.current}`);
+      // --- MODIFIED LINE ---
+      const ws = new WebSocket(`${WS_BASE_URL}/ws/${clientId.current}`);
+      // --- END OF MODIFIED LINE ---
       
       ws.onopen = () => {
         console.log('WebSocket connected');
@@ -170,7 +176,9 @@ const YouTubeDownloader: React.FC = () => {
 
   const triggerBrowserDownload = (filename: string) => {
     // Create a temporary download link and trigger it
-    const downloadUrl = `http://localhost:8000/download/${encodeURIComponent(filename)}`;
+    // --- MODIFIED LINE ---
+    const downloadUrl = `${API_BASE_URL}/download/${encodeURIComponent(filename)}`;
+    // --- END OF MODIFIED LINE ---
     const link = document.createElement('a');
     link.href = downloadUrl;
     link.download = filename;
@@ -226,7 +234,9 @@ const YouTubeDownloader: React.FC = () => {
 
     setIsLoadingInfo(true);
     try {
-      const response = await fetch('http://localhost:8000/video-info', {
+      // --- MODIFIED LINE ---
+      const response = await fetch(`${API_BASE_URL}/video-info`, {
+      // --- END OF MODIFIED LINE ---
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -446,7 +456,7 @@ const YouTubeDownloader: React.FC = () => {
                       <p className="text-white font-medium line-clamp-1">
                         {download.videoInfo?.title || 'Unknown Video'}
                       </p>
-                      <p className="text-sm text-slate-300">
+                    <p className="text-sm text-slate-300">
                         Quality: {download.quality} • Status: {download.status}
                       </p>
                     </div>
@@ -493,7 +503,9 @@ const YouTubeDownloader: React.FC = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => window.open(`http://localhost:8000/download/${download.filename}`, '_blank')}
+                        // --- MODIFIED LINE ---
+                        onClick={() => window.open(`${API_BASE_URL}/download/${download.filename}`, '_blank')}
+                        // --- END OF MODIFIED LINE ---
                         className="bg-green-500/20 border-green-500/30 text-green-300 hover:bg-green-500/30"
                       >
                         Download File
