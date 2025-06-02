@@ -57,10 +57,24 @@ const YouTubeDownloader: React.FC = () => {
   const wsRef = useRef<WebSocket | null>(null);
   const clientId = useRef(Math.random().toString(36).substr(2, 9));
 
-  // --- START OF ADDED/MODIFIED LINES ---
-  const API_BASE_URL = import.meta.env.VITE_APP_API_URL || 'http://localhost:8000'; // Fallback for local dev
-  const WS_BASE_URL = API_BASE_URL.replace('http', 'ws').replace('https', 'wss');
-  // --- END OF ADDED/MODIFIED LINES ---
+  // --- MODIFIED LINES FOR API_BASE_URL AND WS_BASE_URL ---
+  let API_BASE_URL: string;
+  let WS_BASE_URL: string;
+
+  if (import.meta.env.VITE_APP_API_URL) {
+    // If VITE_APP_API_URL is provided (i.e., deployed on Render)
+    // Ensure API_BASE_URL is https and WS_BASE_URL is wss
+    API_BASE_URL = import.meta.env.VITE_APP_API_URL;
+    if (!API_BASE_URL.startsWith('https://')) {
+      API_BASE_URL = `https://${API_BASE_URL.replace(/^(http|ws)s?:\/\//, '')}`;
+    }
+    WS_BASE_URL = `wss://${API_BASE_URL.replace(/^(http|ws)s?:\/\//, '')}`;
+  } else {
+    // Fallback for local development
+    API_BASE_URL = 'http://localhost:8000';
+    WS_BASE_URL = 'ws://localhost:8000';
+  }
+  // --- END OF MODIFIED LINES ---
 
   // Validate YouTube URL
   const isValidYouTubeUrl = (url: string) => {
@@ -281,7 +295,6 @@ const YouTubeDownloader: React.FC = () => {
       toast({
         title: "Invalid URL",
         description: "Please enter a valid YouTube URL",
-        variant: "destructive",
       });
       return;
     }
