@@ -159,7 +159,7 @@ def download_video(url: str, quality: str, download_id: str, websocket: WebSocke
             'merge_output_format': 'mp4',
             'postprocessors': [],
             'ffmpeg_location': '/usr/bin/ffmpeg',#confirmed path
-            'cookiefile': '/backend/cookies.txt',
+            'cookiefile': 'cookies.txt',
         }
 
         if quality == "audio_only":
