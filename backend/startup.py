@@ -1,8 +1,10 @@
 import os
 import base64
 
-# Absolute-safe pathing
-base_dir = os.path.dirname(__file__)
+# Get the path where this script (startup.py) is located
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Use that to build paths to the encoded and decoded files
 encoded_path = os.path.join(base_dir, "cookies-encoded.txt")
 decoded_path = os.path.join(base_dir, "cookies.txt")
 
