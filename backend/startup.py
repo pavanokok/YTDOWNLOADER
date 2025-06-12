@@ -2,7 +2,7 @@ import base64
 import os
 
 # Absolute safe path — match your project structure
-ENCODED_PATH = "./backend/cookies-encode.txt"
+ENCODED_PATH = "./backend/cookies-encoded.txt"
 DECODED_PATH = "./backend/cookies.txt"
 
 if not os.path.exists(DECODED_PATH):
