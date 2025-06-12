@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: yt-backend
+    env: python
+    branch: main
+    buildCommand: ""
+    startCommand: "gunicorn backend.main:app --worker-class uvicorn.workers.UvicornWorker"
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10
