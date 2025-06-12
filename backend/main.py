@@ -157,7 +157,8 @@ def download_video(url: str, quality: str, download_id: str, websocket: WebSocke
             'progress_hooks': [ProgressHook(download_id, websocket, loop)],
             'merge_output_format': 'mp4',
             'postprocessors': [],
-            'ffmpeg_location': '/usr/bin/ffmpeg', # Confirmed path
+            'ffmpeg_location': '/usr/bin/ffmpeg',#confirmed path
+            'cookiefile': 'cookies.txt',
         }
 
         if quality == "audio_only":
