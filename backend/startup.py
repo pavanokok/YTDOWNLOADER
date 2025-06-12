@@ -1,12 +1,15 @@
 import base64
 import os
 
-# Read the encoded file
-with open("/backend/cookies-encode.txt", "r") as f:
-    encoded = f.read()
+# Absolute safe path — match your project structure
+ENCODED_PATH = "./backend/cookies-encode.txt"
+DECODED_PATH = "./backend/cookies.txt"
 
-# Decode and write to /backend/cookies.txt
-with open("/backend/cookies.txt", "wb") as f:
-    f.write(base64.b64decode(encoded))
-
-print("✅ cookies.txt written successfully")
+if not os.path.exists(DECODED_PATH):
+    with open(ENCODED_PATH, "r") as f:
+        encoded = f.read()
+    with open(DECODED_PATH, "wb") as f:
+        f.write(base64.b64decode(encoded))
+    print("✅ cookies.txt created.")
+else:
+    print("✅ cookies.txt already exists.")
