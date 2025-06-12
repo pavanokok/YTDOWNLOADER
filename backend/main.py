@@ -1,3 +1,4 @@
+import backend.startup  # This runs the code that creates cookies.txt
 import asyncio
 import json
 import os
