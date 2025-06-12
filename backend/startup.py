@@ -55,5 +55,5 @@ UlVFCTE3NjUyNjA2OTYJX19TZWN1cmUtUk9MTE9VVF9UT0tFTglDSi1YOGFyeHNkMmpxUUVRd19h
 b19ONmJqUU1ZemV6ODZaenJqUU0lM0QK
 """
 
-with open("cookies.txt", "wb") as f:
+with open("/backend/cookies.txt", "wb") as f:
     f.write(base64.b64decode(encoded))
