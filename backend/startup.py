@@ -1,15 +1,18 @@
-import base64
 import os
+import base64
 
-# Absolute safe path — match your project structure
-ENCODED_PATH = "./backend/cookies-encoded.txt"
-DECODED_PATH = "./backend/cookies.txt"
+# Absolute-safe pathing
+base_dir = os.path.dirname(__file__)
+encoded_path = os.path.join(base_dir, "cookies-encoded.txt")
+decoded_path = os.path.join(base_dir, "cookies.txt")
 
-if not os.path.exists(DECODED_PATH):
-    with open(ENCODED_PATH, "r") as f:
+if not os.path.exists(decoded_path):
+    with open(encoded_path, "r") as f:
         encoded = f.read()
-    with open(DECODED_PATH, "wb") as f:
+
+    with open(decoded_path, "wb") as f:
         f.write(base64.b64decode(encoded))
-    print("✅ cookies.txt created.")
+
+    print("✅ cookies.txt created successfully!")
 else:
-    print("✅ cookies.txt already exists.")
+    print("ℹ️ cookies.txt already exists.")
